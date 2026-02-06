@@ -13,11 +13,7 @@
       --text:#111827;
       --muted:#6b7280;
       --border:#e5e7eb;
-      --shadow:0 10px 26px rgba(17,24,39,.08);
-      --radius:16px;
-      --radiusSm:12px;
 
-      /* Theme */
       --primary:#2563eb;
       --primaryHover:#1e4fd6;
 
@@ -38,6 +34,10 @@
       --secondaryBg:#f1f5f9;
       --secondaryText:#1e3a8a;
       --secondaryBorder:#c7d2fe;
+
+      --shadow:0 10px 26px rgba(17,24,39,.08);
+      --radius:16px;
+      --radiusSm:12px;
 
       --focus: 0 0 0 3px rgba(37,99,235,.22);
     }
@@ -81,12 +81,12 @@
 
     .section{ padding: 18px; }
 
-    /* Prompt block */
+    /* Prompt block (compact like Task 1) */
     .prompt{
       border:1px solid var(--accentBorder);
       background: linear-gradient(0deg, rgba(231,240,255,.55), rgba(231,240,255,.55)), #fff;
       border-radius: var(--radius);
-      padding: 16px;
+      padding: 14px;                 /* tighter */
       position: relative;
       overflow:hidden;
     }
@@ -105,7 +105,7 @@
       align-items:center;
       justify-content:space-between;
       gap:12px;
-      margin-bottom: 8px;
+      margin-bottom: 6px;            /* tighter */
     }
     .promptTitle{
       margin:0;
@@ -137,20 +137,27 @@
     .state.recording .dot{ background:#ef4444; }
     .state.done .dot{ background:#16a34a; }
 
+    /* ✅ Hard lock spacing inside prompt (this fixes your issue) */
+    .promptInner p{
+      margin: 0;                      /* remove default margins */
+    }
+    .promptInner p + p{
+      margin-top: 6px;                /* controlled spacing if multiple p */
+    }
+
     .promptText{
-      margin:0;
       color: var(--text);
       font-size: 14px;
-      line-height: 1.65;
+      line-height: 1.6;
       white-space: pre-wrap;
     }
 
     .imgWrap{
-      margin-top: 8px;
+      margin-top: 6px;                /* tighter */
       border:1px solid var(--border);
       border-radius: var(--radius);
       background:#fff;
-      padding: 10px;
+      padding: 8px;                   /* tighter */
     }
     .imgWrap img{
       width:100%;
@@ -160,7 +167,7 @@
     }
 
     .instruction{
-      margin-top: 8px;
+      margin-top: 6px;                /* tighter */
       padding: 10px;
       border-radius: var(--radiusSm);
       border:1px solid rgba(37,99,235,.20);
@@ -405,33 +412,6 @@
       justify-content:flex-end;
     }
   </style>
-  <style>
-  /* styles existants au-dessus */
-
-  /* === TASK 2: make spacing as tight as Task 1 === */
-
-  .prompt { 
-    padding: 14px !important; 
-  }
-
-  .promptHead { 
-    margin-bottom: 6px !important; 
-  }
-
-  .prompt p { 
-    margin: 6px 0 !important; 
-  }
-
-  .imgWrap { 
-    margin-top: 6px !important;
-    padding: 8px !important;
-  }
-
-  .instruction{
-    margin-top: 6px !important;
-    padding: 10px !important;
-  }
-</style>
 </head>
 
 <body>
@@ -447,7 +427,7 @@
         <section class="prompt" id="promptBox" aria-labelledby="promptTitle">
           <div class="promptInner">
             <div class="promptHead">
-              <h2 class="promptTitle" id="promptTitle">Describe the picture</h2>
+              <h2 class="promptTitle" id="promptTitle">🖼️ Describe the picture</h2>
               <div class="state" id="stateChip">
                 <span class="dot" aria-hidden="true"></span>
                 <span id="stateText">Ready</span>
@@ -459,7 +439,6 @@ Look at the picture carefully. Describe what you see as clearly and completely a
             </p>
 
             <div class="imgWrap">
-              <!-- Put your image file name here (in the same repo) -->
               <img
                 src="Speaking-task-2_assets_restaurant.jpg"
                 alt="TOEIC Speaking Task 2 picture"
@@ -467,7 +446,7 @@ Look at the picture carefully. Describe what you see as clearly and completely a
             </div>
 
             <div class="instruction">
-              You have <strong>30 seconds</strong> to prepare. You will then have <strong>45 seconds</strong> to describe the picture.
+              ⏱️ You have <strong>30 seconds</strong> to prepare. You will then have <strong>45 seconds</strong> to describe the picture.
             </div>
           </div>
         </section>
@@ -627,7 +606,6 @@ Look at the picture carefully. Describe what you see as clearly and completely a
     }
 
     function setState(mode){
-      // mode: ready | recording | done
       stateChip.classList.remove("recording","done");
       if(mode === "recording"){
         stateChip.classList.add("recording");
